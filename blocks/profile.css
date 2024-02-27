@@ -69,3 +69,38 @@
     max-width: 282px;
     margin: 0;
 }
+
+@media screen and (max-width: 880px) {
+    .profile {
+        display: flex;
+        max-width: 282px;
+        margin: 0 auto;
+        flex-direction: column;
+    }
+
+    .profile__info {
+        grid-gap: 5px;
+    }
+
+    .profile__avatar {
+        margin: 5% auto 8% auto;
+    }
+
+    .profile__title {
+        font-weight: 500;
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .profile__description {
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .profile__add-button {
+        margin: 9% auto;
+        width: 100%;
+    }
+
+}

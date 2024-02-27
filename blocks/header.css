@@ -1,3 +1,9 @@
 .header {
     margin-top: 42px;    
 }
+
+@media screen and (max-width: 880px) {
+    .header {
+        display: flex;
+    }
+  }
