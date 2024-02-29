@@ -2,13 +2,12 @@
     font-family: 'Inter', Arial, Helvetica, sans-serif;
     background: black;
     color: #fff;
-    max-width: 1280px;
-    min-width: 320px;
+    overflow-x: hidden;
 }
 
 .page__section {
     max-width: 880px;
-    width: 100%;
+    width: 100vw;
     position: relative;
     margin: 0 auto;
 }
@@ -22,12 +21,10 @@
    .page__section {
         max-width: 600px;
    }
-
 }
   
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 420px) {
     .page__section {
         max-width: 282px;
-
     }
 }
