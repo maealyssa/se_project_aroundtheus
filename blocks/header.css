@@ -1,9 +1,13 @@
 .header {
-    margin-top: 42px;    
+    margin-top: 42px;
+    padding-bottom: 42px;  
+    border-bottom: solid rgba(255, 255, 255, 0.5);   
 }
 
 @media screen and (max-width: 880px) {
-    .header {
-        display: flex;
+    .header__logo {
+        margin-left: 27px;
+        width: 126px;
+        height: 27px;
     }
   }

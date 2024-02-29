@@ -1,5 +1,5 @@
 .footer {
-    padding: 3% 0;
+    display: flex;
 }
 
 .footer__description {
@@ -7,12 +7,14 @@
     font-weight: 400;
     line-height: 22px;
     font-size: 18px;
+    margin: 0;
+    padding: 55px 0 67px 0;
 }
 
 @media screen and (max-width: 880px) {
     .footer__description {
         font-size: 14px;
-        margin: 7% auto;
+        padding: 50px 0 36px 0;
+        line-height: 17px;
     }
- 
- }
+}
