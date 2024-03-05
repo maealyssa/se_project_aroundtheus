@@ -13,4 +13,4 @@ Around The U.S built for different types of screens. The structure and styles of
   
 **Images**  
   
-![screenshot of website](image.png)
+![screenshot of website](/images/image.png)
