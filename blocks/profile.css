@@ -65,6 +65,7 @@
 
 .profile__description {
     grid-area: description;
+    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 18px;
@@ -98,7 +99,6 @@
 
     .profile__description {
         font-size: 14px;
-        font-weight: 400;
         text-align: center;
     }
 
