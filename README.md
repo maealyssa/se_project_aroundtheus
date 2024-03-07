@@ -5,7 +5,8 @@
 Around The U.S built for different types of screens. The structure and styles of this project made to practice the skills of building adaptive website. Project has pictures of places and profile of person that potentialy was in this places.
   
 **Link**
-(https://maealyssa.github.io/se_project_aroundtheus/)
+Link to website: (https://maealyssa.github.io/se_project_aroundtheus/)
+Link to video recording of the project: (https://drive.google.com/file/d/1pIOCGtz3tS98fo17AkJJtLqhUfuynbDd/view?usp=drive_link)
 
 **Figma**  
  Figma design used as a guide to create the website 
