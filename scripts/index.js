@@ -24,3 +24,18 @@ let initialCards = [
         link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg"
     },
 ]
+
+let editButton = document.querySelector(".profile__edit-button");
+let modal = document.querySelector(".modal")
+let closeButton = document.querySelector(".modal__close");
+
+function editModal(){
+    modal.classList.add("modal_opened");
+}
+
+function closeModal(){
+    modal.classList.remove("modal_opened");
+}
+
+editButton.addEventListener("click", editModal);
+closeButton.addEventListener("click", closeModal);
