@@ -54,7 +54,8 @@
 }
 
 .modal__close:hover {
-    color: rgba(0, 0, 0, 0.6)
+    opacity: 60%;
+    transition: opacity 0.2s linear;
 }
 
 .modal__input {
@@ -78,9 +79,23 @@
 }
 
 .modal__save:hover {
-    color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: 0.2s linear;
 }
 
 @media screen and (max-width: 630px) {
+    .modal__container {
+        max-height: 322px;
+        max-width: 282px;
+        padding: 25px;
+    }
+    
+    .modal__form {
+        width: 238px;
+    }
+
+    .modal__save {
+        height: 46px;
+    }
 
 }
