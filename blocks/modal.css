@@ -88,14 +88,27 @@
         max-height: 322px;
         max-width: 282px;
         padding: 25px;
+        margin-top: 123px;
+    }
+
+    .modal__heading {
+        font-size: 18px;
     }
     
     .modal__form {
         width: 238px;
+        font-size: 14px;
     }
 
     .modal__save {
         height: 46px;
+        font-size: 14px;
     }
 
+    .modal__close {
+        bottom: calc(100% + 20px);
+        left: calc(100% + -30px);
+        width: 26px;
+        height: 26px;
+    }
 }
