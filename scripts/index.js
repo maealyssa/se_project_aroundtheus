@@ -66,13 +66,13 @@ profileSaveButton.addEventListener('click', (e) => {
 });
 
 function getCardElement(data) {
-        const cardElement = cardTemplate.cloneNode(true);
-        const cardImageEl = cardElement.querySelector(".card__image");
-        const cardTitleEl = cardElement.querySelector(".card__title");
-        cardImageEl.setAttribute("src", data.link);
-        cardImageEl.setAttribute("alt", data.name)
-        cardTitleEl.textContent = data.name;
-        return cardElement;
+    const cardElement = cardTemplate.cloneNode(true);
+    const cardImageEl = cardElement.querySelector(".card__image");
+    const cardTitleEl = cardElement.querySelector(".card__title");
+    cardImageEl.setAttribute("src", data.link);
+    cardImageEl.setAttribute("alt", data.name)
+    cardTitleEl.textContent = data.name;
+    return cardElement;
 };
 
 initialCards.forEach((cardData) => {
