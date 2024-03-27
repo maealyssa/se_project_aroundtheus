@@ -25,7 +25,6 @@ const initialCards = [
     },
 ]
 
-
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileEditModal = document.querySelector("#edit-modal")
 const profileEditCloseButton = document.querySelector(".modal__close");
@@ -37,37 +36,46 @@ const profileSaveButton = profileEditModal.querySelector(".modal__save");
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content.firstElementChild;
 
-profileEditButton.addEventListener('click', () => {
+function fillProfileForm() {
     profileNameInput.value = profileName.textContent;
-    profileDescriptionInput.value = profileDescription.textContent;
+    profileDescriptionInput.value = profileDescription.textContent; 
+}
+
+function closeModal() {
+    profileEditModal.classList.remove('modal_opened');
+}
+
+function openModal() {
     profileEditModal.classList.add('modal_opened');
+}
+
+profileEditButton.addEventListener('click', () => {
+    fillProfileForm();
+    openModal();
 });
 
 profileEditCloseButton.addEventListener('click', () => {
     closeModal()
 });
 
-function closeModal() {
-    profileEditModal.classList.remove('modal_opened');
-}
-
 profileSaveButton.addEventListener('click', (e) => {
     e.preventDefault();
     profileName.textContent = profileNameInput.value;
     profileDescription.textContent = profileDescriptionInput.value;
     closeModal();
-})
+});
 
 function getCardElement(data) {
-    data.forEach((cardData) => {
         const cardElement = cardTemplate.cloneNode(true);
         const cardImageEl = cardElement.querySelector(".card__image");
         const cardTitleEl = cardElement.querySelector(".card__title");
-        cardImageEl.setAttribute("src", cardData.link);
-        cardImageEl.setAttribute("alt", cardData.name)
-        cardTitleEl.textContent = cardData.name;
-        cardsList.append(cardElement);
-    });
-}
+        cardImageEl.setAttribute("src", data.link);
+        cardImageEl.setAttribute("alt", data.name)
+        cardTitleEl.textContent = data.name;
+        return cardElement;
+};
 
-getCardElement(initialCards);
+initialCards.forEach((cardData) => {
+    const cardElementList = getCardElement(cardData);
+    cardsList.append(cardElementList);
+});
