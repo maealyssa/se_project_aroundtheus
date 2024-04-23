@@ -61,15 +61,12 @@ function openModal(modal) {
     modal.classList.add('modal_opened');
 }
 
-//rendering cards
-function handleAddCardFormSubmit(evt) {
-    evt.preventDefault();
-    const cardTitle = cardTitleInput.value;
-    const cardUrl = cardUrlInput.value;
-    const cardElement = getCardElement();
-    closeModal(newCardModal);
-};
+function renderCard(cardData, wrapper) {
+    const cardElement = getCardElement(cardData);
+    wrapper.prepend(cardElement);
+}
 
+//creating & displaying cards
 function getCardElement(data) {
     const cardElement = cardTemplate.cloneNode(true);
     const cardImageEl = cardElement.querySelector(".card__image");
@@ -83,16 +80,15 @@ function getCardElement(data) {
 };
 
 initialCards.forEach((cardData) => {
-    const cardElementList = getCardElement(cardData);
-    cardsList.prepend(cardElementList);
+    renderCard(cardData, cardsList);
 });
 
-const likeButtons = document.querySelectorAll(".card__like-button");
-likeButtons.forEach(likeButton => {
-    likeButton.addEventListener('click', () => {
-        likeButton.classList.toggle("card__like-button_active");
-    })
-})
+function handleAddCardFormSubmit() {
+    const name = cardTitleInput.value;
+    const link = cardUrlInput.value;
+    renderCard({name, link}, cardsList);
+    closeModal(newCardModal);
+};
 
 //event listeners
 profileEditButton.addEventListener('click', () => {
@@ -104,7 +100,7 @@ profileEditCloseButton.addEventListener('click', () => {
     closeModal(profileEditModal)
 });
 
-profileSaveButton.addEventListener('submit', (e) => {
+profileSaveButton.addEventListener('click', (e) => {
     e.preventDefault();
     profileName.textContent = profileNameInput.value;
     profileDescription.textContent = profileDescriptionInput.value;
@@ -119,6 +115,23 @@ newCardCloseButton.addEventListener('click', () => {
     closeModal(newCardModal);
 })
 
-newCardCreateButton.addEventListener('submit', () => {
+newCardCreateButton.addEventListener('click', (e) => {
+    e.preventDefault();
     handleAddCardFormSubmit()
+})
+
+//like feature
+const likeButtons = document.querySelectorAll(".card__like-button");
+likeButtons.forEach(likeButton => {
+    likeButton.addEventListener('click', () => {
+        likeButton.classList.toggle("card__like-button_active");
+    })
+})
+
+//removing cards
+const removeCardButtons = document.querySelectorAll(".card__trash-button"); 
+removeCardButtons.forEach(removeCardButton => {
+    removeCardButton.addEventListener('click', () => {
+        removeCardButton.parentElement.remove();
+    })
 })
