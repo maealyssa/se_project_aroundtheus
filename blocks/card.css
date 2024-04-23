@@ -41,9 +41,12 @@
     height: 100%;
     width: 25%;
 }
+.card__like-button_active {
+    background: transparent url(../images/heart-black.svg) center no-repeat;
+}
 
 .card__like-button:hover {
     opacity: 0.5;
     transition: 0.5s ease-in-out;
     cursor: pointer;
-  }
+}

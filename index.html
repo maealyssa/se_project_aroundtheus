@@ -31,7 +31,7 @@
                 </p>
             </footer>
         </div>
-        
+        <!-- Edit Modal -->
         <div class="modal" id="edit-modal">
             <div class="modal__container">
                 <button class="modal__close"></button>
@@ -43,7 +43,19 @@
                 </form>
             </div>
         </div>
-
+        <!-- Add card modal -->
+        <div class="modal" id="add-modal">
+            <div class="modal__container">
+                <button class="modal__close"></button>
+                <form class="modal__form" id="add-card-form">
+                    <h3 class="modal__heading">New Place</h3>
+                    <input class="modal__input" id="card-input-title" type="text" name="title" placeholder="title" required>
+                    <input class="modal__input" id="card-input-url" type="text" name="image" placeholder="image URL" required>
+                    <button class="modal__save" id="modal-create" type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+        <!-- Card Template -->
         <template id="card-template">
             <li class="card">
                 <img class="card__image" src="" alt="">
