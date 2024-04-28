@@ -53,20 +53,20 @@ const cardUrlInput = newCardModal.querySelector("#card-input-url");
 function fillProfileForm() {
     profileNameInput.value = profileName.textContent;
     profileDescriptionInput.value = profileDescription.textContent; 
-}
+};
 
 function closeModal(modal) {
     modal.classList.remove('modal_opened');
-}
+};
 
 function openModal(modal) {
     modal.classList.add('modal_opened');
-}
+};
 
 function renderCard(cardData, wrapper) {
     const cardElement = getCardElement(cardData);
     wrapper.prepend(cardElement);
-}
+};
 
 //creating & displaying cards
 function getCardElement(data) {
@@ -75,7 +75,7 @@ function getCardElement(data) {
     const cardTitleEl = cardElement.querySelector(".card__title");
 
     cardImageEl.setAttribute("src", data.link);
-    cardImageEl.setAttribute("alt", data.name)
+    cardImageEl.setAttribute("alt", data.name);
     cardTitleEl.textContent = data.name;
 
     return cardElement;
@@ -115,39 +115,43 @@ newCardAddButton.addEventListener('click', () => {
 
 newCardCloseButton.addEventListener('click', () => {
     closeModal(newCardModal);
-})
+});
 
 newCardCreateButton.addEventListener('click', (e) => {
     e.preventDefault();
-    handleAddCardFormSubmit()
-})
+    handleAddCardFormSubmit();
+});
 
 imageModalCloseButton.addEventListener('click', () => {
     closeModal(imageModal);
-})
+});
 
 //like feature
 const likeButtons = document.querySelectorAll(".card__like-button");
 likeButtons.forEach(likeButton => {
     likeButton.addEventListener('click', () => {
         likeButton.classList.toggle("card__like-button_active");
-    })
-})
+    });
+});
 
 //removing cards
 const removeCardButtons = document.querySelectorAll(".card__trash-button"); 
 removeCardButtons.forEach(removeCardButton => {
     removeCardButton.addEventListener('click', () => {
         removeCardButton.parentElement.remove();
-    })
-})
+    });
+});
 
+//image modal
 const cardImages = document.querySelectorAll(".card__image");
 cardImages.forEach((cardImage) =>
   cardImage.addEventListener("click", () => {
-    const picture = cardImage.closest(".card__image");
+    const image = cardImage.closest(".card__image");
     const modalBoxImage = imageModal.querySelector(".modal__image");
-    modalBoxImage.src = `${picture.src}`;
+    const modalImageName = imageModal.querySelector(".modal__name");
+    modalBoxImage.src = image.src;
+    modalBoxImage.alt = image.alt;
+    modalImageName.textContent = image.alt;
     openModal(imageModal);
   })
 );

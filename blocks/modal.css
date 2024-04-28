@@ -29,6 +29,22 @@
     border-radius: 10px;
 }
 
+.modal__container-image {
+    position: relative;
+    margin: auto;
+}
+.modal__name {
+    color: #fff;
+    font-size: 12px;
+    line-height: 14.52px;
+    font-weight: 400;
+}
+
+.modal__image {
+    max-width: 75vw;
+    max-height: 75vh;
+}
+
 .modal__heading {
     font-weight: 900;
     font-size: 24px;
