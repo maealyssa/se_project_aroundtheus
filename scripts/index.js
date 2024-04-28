@@ -30,6 +30,7 @@ const cardsList = document.querySelector(".cards__list");
 const profileEditModal = document.querySelector("#edit-modal")
 const newCardModal = document.querySelector("#add-modal");
 const cardTemplate = document.querySelector("#card-template").content.firstElementChild;
+const imageModal = document.querySelector("#image-modal");
 
 //buttons and other DOM nodes
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -38,6 +39,7 @@ const profileSaveButton = profileEditModal.querySelector(".modal__save");
 const newCardAddButton = document.querySelector(".profile__add-button");
 const newCardCloseButton = newCardModal.querySelector(".modal__close");
 const newCardCreateButton = newCardModal.querySelector("#modal-create");
+const imageModalCloseButton = imageModal.querySelector("#close-image");
 
 //form data
 const profileName = document.querySelector(".profile__title");
@@ -120,6 +122,10 @@ newCardCreateButton.addEventListener('click', (e) => {
     handleAddCardFormSubmit()
 })
 
+imageModalCloseButton.addEventListener('click', () => {
+    closeModal(imageModal);
+})
+
 //like feature
 const likeButtons = document.querySelectorAll(".card__like-button");
 likeButtons.forEach(likeButton => {
@@ -135,3 +141,13 @@ removeCardButtons.forEach(removeCardButton => {
         removeCardButton.parentElement.remove();
     })
 })
+
+const cardImages = document.querySelectorAll(".card__image");
+cardImages.forEach((cardImage) =>
+  cardImage.addEventListener("click", () => {
+    const picture = cardImage.closest(".card__image");
+    const modalBoxImage = imageModal.querySelector(".modal__image");
+    modalBoxImage.src = `${picture.src}`;
+    openModal(imageModal);
+  })
+);
