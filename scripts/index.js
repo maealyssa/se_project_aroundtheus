@@ -119,15 +119,7 @@ function handleProfileEditForm(event) {
     profileDescription.textContent = profileDescriptionInput.value;
     closeModal(profileEditModal);
 }
-function handleImageModal() {
-    const image = cardImage.closest(".card__image");
-    const modalBoxImage = imageModal.querySelector(".modal__image");
-    const modalImageName = imageModal.querySelector(".modal__name");
-    modalBoxImage.src = image.src;
-    modalBoxImage.alt = image.alt;
-    modalImageName.textContent = image.alt;
-    openModal(imageModal);
-}
+
 //event listeners
 profileEditButton.addEventListener('click', () => {
     fillProfileForm();
