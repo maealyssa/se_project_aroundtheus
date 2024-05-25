@@ -17,6 +17,7 @@
     visibility: visible;
     opacity: 1;
     transition: opacity 0.5s;
+    cursor: pointer;
 }
 
 .modal__container {
@@ -33,6 +34,7 @@
     position: relative;
     margin: auto;
 }
+
 .modal__name {
     color: #fff;
     font-size: 12px;
@@ -84,15 +86,16 @@
     border-bottom: solid rgba(0, 0, 0, 0.2);
     border-width: 1px;
     margin-top: 27px;
+    margin-bottom: 5px;
     height: 27px;
     outline: none;
 }
 
-.modal__save {
+.modal__button {
     color: #fff;
     background-color: #000;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 25px;
     border-style: none;
     border-radius: 2px;
     font-size: 18px;
@@ -100,9 +103,29 @@
     cursor: pointer;
 }
 
+.modal__button_disabled {
+    pointer-events: none;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.2);
+    border: solid rgba(0, 0, 0, 0.2);
+    border-width: 1px;
+}
+
 .modal__save:hover {
     background-color: rgba(0, 0, 0, 0.8);
     transition: 0.2s linear;
+}
+
+.modal__error {
+    font-size: 12px;
+    line-height: 15px;
+    color: rgb(255, 0, 0);
+    transition: opacity 0.3s;
+}
+
+.modal__input_type_error {
+    border-bottom: solid rgb(255, 0, 0);
+    border-width: 1px;
 }
 
 @media screen and (max-width: 630px) {
