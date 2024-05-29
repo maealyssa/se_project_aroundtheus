@@ -33,7 +33,7 @@ const cardTemplate = document.querySelector("#card-template").content.firstEleme
 const imageModal = document.querySelector("#image-modal");
 const editProfileForm = profileEditModal.querySelector("#edit-profile-form");
 const newCardForm = newCardModal.querySelector("#add-card-form");
-const modalOpened = document.querySelector(".modal_opened");
+const modalOpened = document.querySelector("modal.modal_opened");
 
 //buttons and other DOM nodes
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -58,10 +58,12 @@ function fillProfileForm() {
 
 function closeModal(modal) {
     modal.classList.remove('modal_opened');
+    document.removeEventListener("keydown", escapeKeyHandler);
 };
 
 function openModal(modal) {
     modal.classList.add('modal_opened');
+    document.addEventListener("keydown", escapeKeyHandler);
 };
 
 function renderCard(cardData, wrapper) {
@@ -111,6 +113,9 @@ const handleAddCardFormSubmit = (evt) => {
     const link = cardUrlInput.value;
     renderCard({name, link}, cardsList);
     closeModal(newCardModal);
+
+    cardTitleInput.value = "";
+    cardUrlInput.value = "";
 };
 
 const handleProfileEditForm = (event) => {
@@ -118,6 +123,15 @@ const handleProfileEditForm = (event) => {
     profileName.textContent = profileNameInput.value;
     profileDescription.textContent = profileDescriptionInput.value;
     closeModal(profileEditModal);
+
+    profileNameInput.value = "";
+    profileDescriptionInput.value = "";
+}
+
+const escapeKeyHandler = (evt) => {
+    if (evt.key === "Escape") {
+        closeModal(document.querySelector(".modal_opened"));
+      }
 }
 
 //event listeners
@@ -146,7 +160,8 @@ imageModalCloseButton.addEventListener('click', () => {
     closeModal(imageModal);
 });
 
-
-document.querySelector(".modal_opened").addEventListener('click', (evt) => {
-    console.log(evt);
-})
+document.addEventListener("click", (evt) => {
+    if(evt.target.classList.contains("modal_opened")){
+        evt.target.classList.remove("modal_opened");
+    }
+});
