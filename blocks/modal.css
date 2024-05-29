@@ -104,14 +104,14 @@
 }
 
 .modal__button_disabled {
-    pointer-events: none;
+    cursor: default;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.2);
     border: solid rgba(0, 0, 0, 0.2);
     border-width: 1px;
 }
 
-.modal__save:hover {
+.modal__button:hover:not(:disabled) {
     background-color: rgba(0, 0, 0, 0.8);
     transition: 0.2s linear;
 }
