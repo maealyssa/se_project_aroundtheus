@@ -58,14 +58,14 @@ function fillProfileForm() {
 
 function closeModal(modal) {
     modal.classList.remove('modal_opened');
-    document.removeEventListener("keydown", escapeKeyHandler);
-    modal.removeEventListener("mousedown", mouseClickCloseModal);
+    document.removeEventListener("keydown", handleEscapeKey);
+    modal.removeEventListener("mousedown", handleMouseClick);
 };
 
 function openModal(modal) {
     modal.classList.add('modal_opened');
-    document.addEventListener("keydown", escapeKeyHandler);
-    modal.addEventListener("mousedown", mouseClickCloseModal);
+    document.addEventListener("keydown", handleEscapeKey);
+    modal.addEventListener("mousedown", handleMouseClick);
 };
 
 function renderCard(cardData, wrapper) {
@@ -130,13 +130,13 @@ const handleProfileEditForm = (event) => {
     profileDescriptionInput.value = "";
 }
 
-const escapeKeyHandler = (evt) => {
+const handleEscapeKey = (evt) => {
     if (evt.key === "Escape") {
         closeModal(document.querySelector(".modal_opened"));
       }
 }
 
-const mouseClickCloseModal = (evt) => {
+const handleMouseClick = (evt) => {
     if (evt.target === evt.currentTarget || evt.target.classList.contains("modal__close")) {
       closeModal(evt.currentTarget);
     }
