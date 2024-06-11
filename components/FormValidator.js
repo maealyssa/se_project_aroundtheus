@@ -25,9 +25,9 @@ class FormValidator {
 
     _checkInputValidity(inputElement) {
         if(!inputElement.validity.valid) {
-            showInputError(formElement, inputElement)
+            this._showInputError(inputElement)
         } else {
-            hideInputError(formElement, inputElement);
+            this._hideInputError(inputElement);
         }
     }
 
@@ -46,20 +46,20 @@ class FormValidator {
     }
 
     _toggleButtonState(inputElements, submitButton) {
-        if(hasInvalidInput(inputElements)) {
-            disableButton(submitButton, inactiveButtonClass);
+        if(this._hasInvalidInput(inputElements)) {
+            this._disableButton(submitButton, this._inactiveButtonClass);
         } else {
-            enableButton(submitButton, inactiveButtonClass);
+            this._enableButton(submitButton, this._inactiveButtonClass);
         }
     }
 
     _setEventListeners() {
-        const inputElements = [...this._formElement.querySelectorAll(inputSelector)];
-        const submitButton = this._formElement.querySelector(submitButtonSelector);
+        const inputElements = [...this._formElement.querySelectorAll(this._inputSelector)];
+        const submitButton = this._formElement.querySelector(this._submitButtonSelector);
         inputElements.forEach(inputElement => {
             inputElement.addEventListener('input', () => {
-                _checkInputValidity(formElement, inputElement);
-                _toggleButtonState(inputElements, submitButton);
+                this._checkInputValidity(inputElement);
+                this._toggleButtonState(inputElements, submitButton);
             })
         })
     }
