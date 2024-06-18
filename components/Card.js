@@ -15,7 +15,7 @@ class Card {
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
-      trashButton.addEventListener('click', () => this._handleDelete);
+      trashButton.addEventListener('click', () => this._handleDelete());
 
       //image modal click
       this._imageModal = this._element.querySelector('.card__image');
@@ -29,13 +29,14 @@ class Card {
       .cloneNode(true);
     }
 
-    _handleLike() {
+    _handleLike = () => {
       this._likeButton
         .classList.toggle(".card__like-button_active");
     }
 
     _handleDelete() {
       this._element.remove();
+      this._element = null;
     }
 
     generateCard() {

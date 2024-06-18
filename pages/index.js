@@ -32,7 +32,6 @@ const initialCards = [
 const cardsList = document.querySelector(".cards__list");
 const profileEditModal = document.querySelector("#edit-modal")
 const newCardModal = document.querySelector("#add-modal");
-const cardTemplate = document.querySelector("#card-template");
 const imageModal = document.querySelector("#image-modal");
 const editProfileForm = profileEditModal.querySelector("#edit-profile-form");
 const newCardForm = newCardModal.querySelector("#add-card-form");
