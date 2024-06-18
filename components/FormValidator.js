@@ -42,7 +42,7 @@ class FormValidator {
 
     _enableButton(submitButton) {
         submitButton.classList.remove(this._inactiveButtonClass);
-        submitButton.disabled = true;
+        submitButton.disabled = false;
     }
 
     _toggleButtonState(inputElements, submitButton) {
