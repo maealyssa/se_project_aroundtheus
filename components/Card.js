@@ -11,7 +11,7 @@ class Card {
 
       //like button
       this._likeButton = this._element.querySelector(".card__like-button");
-      this._likeButton.addEventListener('click', () => this._handleLike);
+      this._likeButton.addEventListener('click', this._handleLike);
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
@@ -31,7 +31,7 @@ class Card {
 
     _handleLike = () => {
       this._likeButton
-        .classList.toggle(".card__like-button_active");
+        .classList.toggle("card__like-button_active");
     }
 
     _handleDelete() {

@@ -42,6 +42,7 @@ const profileEditCloseButton = profileEditModal.querySelector(".modal__close");
 const newCardAddButton = document.querySelector(".profile__add-button");
 const newCardCloseButton = newCardModal.querySelector(".modal__close");
 const imageModalCloseButton = imageModal.querySelector("#close-image");
+const newCardCreateButton = newCardModal.querySelector("#modal-create");
 
 //form data
 const profileName = document.querySelector(".profile__title");
@@ -96,8 +97,7 @@ const handleAddCardFormSubmit = (evt) => {
     renderCard({name, link}, cardsList);
     closeModal(newCardModal);
 
-    cardTitleInput.value = "";
-    cardUrlInput.value = "";
+    newCardForm.reset();
 };
 
 const handleProfileEditForm = (event) => {
