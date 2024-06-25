@@ -1,5 +1,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import "./index.css";
+import headerLogo from "../images/logo.svg";
+import profileAvatar from "../images/jacques-cousteau.jpg";
 
 const initialCards = [
     {
@@ -51,6 +54,13 @@ const profileNameInput = profileEditModal.querySelector("#profile-input-name");
 const profileDescriptionInput = profileEditModal.querySelector("#profile-input-description");
 const cardTitleInput = newCardModal.querySelector("#card-input-title");
 const cardUrlInput = newCardModal.querySelector("#card-input-url");
+
+//images
+const headerImage = document.getElementById("header-logo");
+headerImage.src = headerLogo;
+
+const profileAvatarImg = document.getElementById("profile-avatar");
+profileAvatarImg.src = profileAvatar;
 
 //helper functions
 function fillProfileForm() {
