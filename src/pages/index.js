@@ -1,8 +1,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import "./index.css";
 import headerLogo from "../images/logo.svg";
 import profileAvatar from "../images/jacques-cousteau.jpg";
+import Styles from "./index.css";
 
 const initialCards = [
     {
