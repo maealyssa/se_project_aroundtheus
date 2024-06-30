@@ -11,6 +11,9 @@ import UserInfo from "../components/UserInfo.js";
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
+const addNewCardForm = document.forms['card-form'];
+const profileEditForm = document.forms['profile-form'];
+
 const profileNameInput = document.querySelector('#profile-input-name');
 const profileDescriptionInput = document.querySelector('#profile-input-description');
 
@@ -39,7 +42,7 @@ popupImage.close();
 function renderCard(data) {
     const card = new Card({ data, handleImageClick: (imageData) => {
         popupImage.open(imageData);
-    } }, selectors.cardTemplate);
+    }}, selectors.cardTemplate);
 
     return card.generateCard();
 };
@@ -59,12 +62,17 @@ cardSection.renderItems(initialCards);
 
 // Adding New Card Form
 const addCardForm = new PopupWithForm(selectors.addFormPopup, (data) => {
-    const newCard = renderCard(data);
+    const newCardData = {
+        name: data.name,
+        link: data.link,
+    }
+    const newCard = renderCard(newCardData);
     addCardForm.close();
     cardSection.addItem(newCard);
 });
 
 addButton.addEventListener('click', () => {
+    formValidators[addNewCardForm.getAttribute('name')].resetValidation();
     addCardForm.open();
 })
 
@@ -84,6 +92,8 @@ editButton.addEventListener('click', () => {
 
     profileNameInput.value = profileInfo.name;
     profileDescriptionInput.value = profileInfo.description;
+
+    formValidators[profileEditForm.getAttribute('name')].disableButton();
             
     editFormPopup.open();
 })
