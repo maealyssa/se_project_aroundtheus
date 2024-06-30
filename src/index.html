@@ -8,11 +8,20 @@
     <body class="page">
         <div class="page__content">
             <header class="header page__section">
-                <img class="header__logo" id="header-logo" alt="Around the US logo">
+                <img 
+                    class="header__logo" 
+                    id="header-logo" 
+                    alt="Around the US logo" 
+                    src="<%=require('./images/logo.svg')%>"
+                />
             </header>
             <main class="content">
                 <section class="profile page__section">
-                    <img class="profile__avatar" id="profile-avatar" alt="Avatar">
+                    <img 
+                        class="profile__avatar" 
+                        id="profile-avatar"
+                        src="<%=require('./images/jacques-cousteau.jpg')%>" 
+                        alt="Avatar">
                     <div class="profile__info">
                         <h1 class="profile__title">Jacques Cousteau</h1>
                         <button class="profile__edit-button" type="button"></button>
@@ -34,13 +43,12 @@
         <div class="modal" id="edit-modal">
             <div class="modal__container">
                 <button class="modal__close"></button>
-                <form class="modal__form" id="edit-profile-form">
+                <form class="modal__form" id="edit-profile-form" name="profile-form">
                     <h3 class="modal__heading">Edit Profile</h3>
                     <input class="modal__input modal__input_type_name" 
                         id="profile-input-name" 
                         type="text" 
-                        
-                        placeholder="Name"
+                        name="name"
                         minlength="2"
                         maxlength="40" 
                         required>
@@ -48,8 +56,7 @@
                     <input class="modal__input" 
                         id="profile-input-description" 
                         type="text" 
-                     
-                        placeholder="Description"
+                        name="description"
                         minlength="2"
                         maxlength="200"
                         required>
@@ -62,7 +69,7 @@
         <div class="modal" id="add-modal">
             <div class="modal__container">
                 <button class="modal__close"></button>
-                <form class="modal__form" id="add-card-form">
+                <form class="modal__form" id="add-card-form" name="card-form">
                     <h3 class="modal__heading">New Place</h3>
                     <input class="modal__input" 
                         id="card-input-title" 
