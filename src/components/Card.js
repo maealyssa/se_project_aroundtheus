@@ -19,7 +19,7 @@ class Card {
 
       //image modal click
       this._imageModal = this._element.querySelector('.card__image');
-      this._imageModal.addEventListener('click', () => this._handleImageClick(this._link, this._name));
+      this._imageModal.addEventListener('click', () => this._handleImageClick({link: this._link, name: this._name}));
     }
 
     _getTemplate() {
