@@ -1,21 +1,24 @@
 class Card {
-    constructor({ data, handleImageClick }, cardSelector) {
+  constructor(data, handleImageClick, handleLikeButton, handleDeleteLike, cardSelector) {
       this._name = data.name;
       this._link = data.link;
+      this._cardId = data._id;
 
       this._cardSelector = cardSelector;
       this._handleImageClick = handleImageClick;
+      this._handleLikeButton = handleLikeButton;
+      this._handleDeleteLike = handleDeleteLike;
     }
     
     _setEventListeners() {
 
       //like button
       this._likeButton = this._element.querySelector(".card__like-button");
-      this._likeButton.addEventListener('click', this._handleLike);
+      this._likeButton.addEventListener('click', () => this._handleLikeButton(this._cardId));
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
-      trashButton.addEventListener('click', () => this._handleDelete());
+      trashButton.addEventListener('click', () => this._handleDelete(this._cardId));
 
       //image modal click
       this._imageModal = this._element.querySelector('.card__image');
@@ -29,7 +32,7 @@ class Card {
       .cloneNode(true);
     }
 
-    _handleLike = () => {
+    handleLike = () => {
       this._likeButton
         .classList.toggle("card__like-button_active");
     }

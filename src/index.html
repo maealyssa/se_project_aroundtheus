@@ -12,7 +12,7 @@
                     class="header__logo" 
                     id="header-logo" 
                     alt="Around the US logo" 
-                    src="<%=require('./images/logo.svg')%>"
+                    src=""
                 />
             </header>
             <main class="content">
@@ -20,7 +20,7 @@
                     <img 
                         class="profile__avatar" 
                         id="profile-avatar"
-                        src="<%=require('./images/jacques-cousteau.jpg')%>" 
+                        src="" 
                         alt="Avatar">
                     <div class="profile__info">
                         <h1 class="profile__title">Jacques Cousteau</h1>
@@ -88,6 +88,21 @@
                         required>
                     <span class="modal__error" id="card-input-url-error"></span>  
                     <button class="modal__button" id="modal-create" type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+         <!-- Change profile avatar modal -->
+         <div class="modal" id="change-avatar-modal">
+            <div class="modal__container">
+                <button class="modal__close"></button>
+                <form class="modal__form" id="avatar-form" name="avatar-form">
+                    <h3 class="modal__heading">Change profile picture</h3>
+                    <input class="modal__input" 
+                        id="avatar-input-url"
+                        type="url" 
+                        required>
+                    <span class="modal__error" id="card-input-avatar-error"></span>
+                    <button class="modal__button" id="modal-avatar-button" type="submit">Save</button>
                 </form>
             </div>
         </div>

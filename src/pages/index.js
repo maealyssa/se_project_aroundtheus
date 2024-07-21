@@ -1,4 +1,4 @@
-import { formValidationConfig, initialCards, selectors } from "../utils/constants.js";
+import { formValidationConfig, selectors } from "../utils/constants.js";
 import Styles from "./index.css";
 
 import Card from "../components/Card.js";
@@ -7,6 +7,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -49,7 +50,13 @@ function renderCard(data) {
 
 const cardSection = new Section(
     {
-        items: initialCards,
+        items: api.getInitialCards()
+            .then((res) => {
+                return res.json()
+            })
+            .catch((err) => {
+                console.error(err);
+            }),
         renderer: (data) => {
            const cardEl = renderCard(data);
            cardSection.addItem(cardEl);
@@ -88,7 +95,13 @@ const editFormPopup = new PopupWithForm(selectors.editFormPopup, (input) => {
 
 //Edit Profile Form
 editButton.addEventListener('click', () => {
-    const profileInfo = userInfo.getUserInfo();
+    const profileInfo = api.getUserInfo()
+        .then((res) => {
+            return res.json()
+        })
+        .catch((err) => {
+            console.err(err)
+        });
 
     profileNameInput.value = profileInfo.name;
     profileDescriptionInput.value = profileInfo.description;
@@ -99,3 +112,13 @@ editButton.addEventListener('click', () => {
 })
 
 editFormPopup.setEventListeners();
+
+//API 
+const api = new Api({
+    baseUrl: "https://around-api.en.tripleten-services.com/v1",
+    headers: {
+      authorization: "174196d6-45bd-490a-bc0e-39b0754c7da9",
+      "Content-Type": "application/json"
+    }
+});
+
