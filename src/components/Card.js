@@ -1,24 +1,25 @@
 class Card {
-  constructor(data, handleImageClick, handleLikeButton, handleDeleteLike, cardSelector) {
+  constructor(data, handleImageClick, handleDelete, cardSelector, setIsLiked) {
       this._name = data.name;
       this._link = data.link;
       this._cardId = data._id;
+      this._isLiked = data.isLiked;
 
       this._cardSelector = cardSelector;
       this._handleImageClick = handleImageClick;
-      this._handleLikeButton = handleLikeButton;
-      this._handleDeleteLike = handleDeleteLike;
+      this._handleDelete = handleDelete;
+      this._setIsLiked = setIsLiked;
     }
     
     _setEventListeners() {
 
       //like button
       this._likeButton = this._element.querySelector(".card__like-button");
-      this._likeButton.addEventListener('click', () => this._handleLikeButton(this._cardId));
+      this._likeButton.addEventListener('click', () => this._setIsLiked(this));
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
-      trashButton.addEventListener('click', () => this._handleDelete(this._cardId));
+      trashButton.addEventListener('click', () => this._handleDelete);
 
       //image modal click
       this._imageModal = this._element.querySelector('.card__image');
@@ -32,12 +33,17 @@ class Card {
       .cloneNode(true);
     }
 
-    handleLike = () => {
-      this._likeButton
-        .classList.toggle("card__like-button_active");
+    _handleLike() {
+      this._isLiked 
+        ? this._likeButton.classList.add("card__like-button_active") 
+        : this._likeButton.classList.remove("card__like-button_active")
     }
 
-    _handleDelete() {
+    isLiked() {
+      return this._isLiked;
+    }
+
+    deleteCard() {
       this._element.remove();
       this._element = null;
     }
@@ -53,8 +59,13 @@ class Card {
       cardTitle.textContent = this._name;
 
       this._setEventListeners();
+      this._handleLike();
 
       return this._element;
+    }
+
+    getCardId() {
+      return this._cardId;
     }
   }
 

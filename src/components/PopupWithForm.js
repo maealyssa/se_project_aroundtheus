@@ -1,12 +1,22 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-    constructor(popupSelector, handleAddCardFormSubmit) {
+    constructor(popupSelector, handleFormSubmit, loadingText = "Saving...") {
         super({ popupSelector });
         this._form = this._popup.querySelector('.modal__form');
         this._submitButton = this._popup.querySelector('.modal__button');
         this._formInputs = this._popup.querySelectorAll('input');
-        this._handleAddCardFormSubmit = handleAddCardFormSubmit;
+        this._handleFormSubmit = handleFormSubmit;
+        this._buttonText = this._submitButton.textContent;
+        this._loadingText = loadingText;
+    }
+
+    showLoading() {
+        this._buttonText = this._loadingText;
+    }
+
+    hideLoading() {
+        this._buttonText = this._buttonText;
     }
 
     _getInputValues() {
@@ -23,7 +33,7 @@ export default class PopupWithForm extends Popup {
         super.setEventListeners();
 
         this._popup.addEventListener('submit', (evt) => {
-            this._handleAddCardFormSubmit(this._getInputValues());
+            this._handleFormSubmit(this._getInputValues());
             evt.preventDefault();
         });
     }

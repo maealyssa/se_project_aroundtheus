@@ -5,32 +5,32 @@ const latemarImage = new URL("../images/latemar.jpg", import.meta.url);
 const baldMountainsImage = new URL("../images/bald-mountains.jpg", import.meta.url);
 const yosemiteValleyImage = new URL("../images/yosemite.jpg", import.meta.url);
 
-// export const initialCards = [
-//     {
-//         name: "Lago di Braies",
-//         link: lagoDiBraiesImage
-//     },
-//     {
-//         name: "Vanoise National Park",
-//         link: vanoiseNationalParkImage
-//     },
-//     {
-//         name: "Lake Louise",
-//         link: lakeLouiseImage
-//     },
-//     {
-//         name: "Latemar",
-//         link: latemarImage
-//     },
-//     {
-//         name: "Bald Mountains",
-//         link: baldMountainsImage
-//     },
-//     {
-//         name: "Yosemite Valley",
-//         link: yosemiteValleyImage
-//     }
-// ];
+export const initialCards = [
+    {
+        name: "Lago di Braies",
+        link: lagoDiBraiesImage
+    },
+    {
+        name: "Vanoise National Park",
+        link: vanoiseNationalParkImage
+    },
+    {
+        name: "Lake Louise",
+        link: lakeLouiseImage
+    },
+    {
+        name: "Latemar",
+        link: latemarImage
+    },
+    {
+        name: "Bald Mountains",
+        link: baldMountainsImage
+    },
+    {
+        name: "Yosemite Valley",
+        link: yosemiteValleyImage
+    }
+];
 
 export const formValidationConfig = {
     inputSelector: ".modal__input",
@@ -49,8 +49,12 @@ export const selectors = {
     addFormPopup: '#add-modal',
     profileTitle: '.profile__title',
     profileDescription: '.profile__description',
+    profileAvatar: '.profile__avatar',
     formModalContainer: '.modal__container',
     imageModalContainer: '.modal__container-image',
     formInputName: '#profile-input-name',
     formInputDescription: '#profile-input-description',
+    changeAvatarPopup: "#change-avatar-modal",
+    avatarForm: "#avatar-form",
+    updateAvatarButton: "#modal-avatar-button",
 };

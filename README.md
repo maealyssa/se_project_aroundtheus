@@ -16,4 +16,4 @@ Link to video recording of the project: (https://drive.google.com/file/d/1JElMzh
   
 **Images**  
   
-![screenshot of website](/images/image.png)
+![screenshot of website](/src/images/image.png)

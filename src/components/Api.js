@@ -1,86 +1,113 @@
 export default class Api {
-    constructor(options) {
-        this._baseUrl = options.baseUrl;
-        this._headers = options.headers;
-    }
-  
-    _response = (res) => {
-        if(res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(`Error: ${res.status}`);
+    constructor({ baseUrl, headers }) {
+        this._baseUrl = baseUrl;
+        this._headers = headers;
     }
 
-    async getInitialCards() {
-        const res = await fetch(`${this._baseUrl}/cards`, {
+    getInitialCards() {
+        return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers,
-          });
-          return this._response(res);
+            })
+            .then((res) => {
+                res.ok 
+                    ? res.json()
+                    : Promise.reject("An error has occurred", res.status)
+            })
+            .then((res) => {return res})
+            .catch((err) => {
+                console.error(err)
+            });
+
     }
       
-    async getUserInfo() {
-        const res = await fetch(`${this._baseUrl}/users/me`, {
+    fetchUserInfo() {
+        return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers,
-        });
-        return this._response(res);
+        })
+        .then((res) => {
+            res.ok 
+                ? res.json()
+                : Promise.reject("An error has occurred", res.status)
+        })
+        .then((res) => {return res})
+        .catch((err) => {
+            console.error(err)
+        })
+
     }
 
-    async editProfile({ name, about }) {
-        const res = await fetch(`${this._baseUrl}/users/me`, {
+    editProfile({ name, about }) {
+        return fetch(`${this._baseUrl}/users/me`, {
             method: "PATCH",
             headers: this._headers,
-            body: JSON.stringify({ name, about }),
+            body: JSON.stringify({ 
+                name: name, 
+                about: about 
+            }),
         });
-        return this._response(res);
     }
 
-    async editProfileAvatar({ link }) {
-        const res = await fetch(`${this._baseUrl}/users/me/avatar`, {
+    editProfileAvatar({ link }) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: "PATCH",
             headers: this._headers,
             body: JSON.stringify({ avatar: link }),
+        })
+        .then((res) => {
+            res.ok 
+                ? res.json()
+                : Promise.reject("An error has occurred", res.status)
+        })
+        .then((res) => {return res})
+        .catch((err) => {
+            console.error(err)
         });
-        return this._response(res);
     }
 
-    async getAllCards() {
-        const res = await fetch(`${this._baseUrl}/cards`, {
-            headers: this._headers,
-        });
-        return this._response(res);
-    }
-
-    async addNewCard({ name, link }) {
-        const res = await fetch(`${this._baseUrl}/cards`, {
+    addNewCard({ name, link }) {
+        return fetch(`${this._baseUrl}/cards`, {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify({ name, link }),
         });
-        return this._response(res);
     }
 
-    async deleteCard({ cardId }) {
-        const res = await fetch(`${this._baseUrl}/cards/${cardId}`, {
+    deleteCard({ cardId }) {
+        return fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: "DELETE",
             headers: this._headers,
-        });
-        return this._response(res);
+        })
     }
 
-    async addLike({ cardId }) {
-        const res = await fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    addLike({ cardId }) {
+        return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
             method: "PUT",
             headers: this._headers,
+        })
+        .then((res) => {
+            res.ok 
+                ? res.json()
+                : Promise.reject("An error has occurred", res.status)
+        })
+        .then((res) => {return res})
+        .catch((err) => {
+            console.error(err)
         });
-        return this._response(res);
     }
 
-    async deleteLike({ cardId }) {
-        const res = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    deleteLike({ cardId }) {
+        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: "DELETE",
             headers: this._headers,
+        })
+        .then((res) => {
+            res.ok 
+                ? res.json()
+                : Promise.reject("An error has occurred", res.status)
+        })
+        .then((res) => {return res})
+        .catch((err) => {
+            console.error(err)
         });
-        return this._response(res);
     }
   }
