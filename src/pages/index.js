@@ -30,27 +30,6 @@ const api = new Api({
     }
 });
 
-// validation
-const formValidators = {};
-
-const enableValidation = (formValidationConfig) => {
-    const formList = Array.from(document.querySelectorAll(formValidationConfig.formSelector));
-
-    formList.forEach((formElement) => {
-       const validator = new FormValidator(formValidationConfig, formElement);
-       const formName = formElement.getAttribute("name"); 
-
-       formValidators[formName] = validator;
-       validator.enableValidation();
-    });
-}
-
-enableValidation(formValidationConfig);
-
-//PopupWithImage
-const popupImage = new PopupWithImage(selectors.previewPopup);
-popupImage.close();
-
 // //rendering card
 const renderCard = (data) => {
     const card = new Card(data, handleImageClick, handleDelete, selectors.cardTemplate, setIsLiked);
@@ -107,14 +86,24 @@ Promise.all([api.fetchUserInfo(), api.getInitialCards()])
         console.log(err);
     })
 
+// validation
+const formValidators = {};
+
+const enableValidation = (formValidationConfig) => {
+    const formList = Array.from(document.querySelectorAll(formValidationConfig.formSelector));
+
+    formList.forEach((formElement) => {
+       const validator = new FormValidator(formValidationConfig, formElement);
+       const formName = formElement.getAttribute("name"); 
+
+       formValidators[formName] = validator;
+       validator.enableValidation();
+    });
+}
+
+enableValidation(formValidationConfig);
+
 // Adding New Card Form
-const addCardForm = new PopupWithForm(selectors.addFormPopup, handleAddCardSubmit);
-
-addButton.addEventListener('click', () => {
-    formValidators[addNewCardForm.getAttribute('name')].resetValidation();
-    addCardForm.open();
-})
-
 const handleAddCardSubmit = (data) => {
     addCardForm.showLoading();
     const { name, link } = data;
@@ -132,18 +121,14 @@ const handleAddCardSubmit = (data) => {
         });
 }
 
-//Edit Profile Form
-const editProfileModal = new PopupWithForm(selectors.editFormPopup, handleProfileFormSubmit);
-editProfileModal.setEventListeners();
+const addCardForm = new PopupWithForm(selectors.addFormPopup, handleAddCardSubmit);
 
-editButton.addEventListener('click', () => {
-    const { name, description } = userInfo.getUserInfo();
-    profileNameInput.value = name;
-    profileDescriptionInput.value = description;
-    formValidators[profileEditForm.getAttribute('name')].disableButton();
-    editProfileModal.open();
+addButton.addEventListener('click', () => {
+    formValidators[addNewCardForm.getAttribute('name')].resetValidation();
+    addCardForm.open();
 })
 
+//Edit Profile Form
 const handleProfileFormSubmit = ({ title, description }) => {
     editProfileModal.showLoading();
     return api.editProfile(title, description)
@@ -158,6 +143,21 @@ const handleProfileFormSubmit = ({ title, description }) => {
             editProfileModal.hideLoading();
         });
 }
+
+const editProfileModal = new PopupWithForm(selectors.editFormPopup, handleProfileFormSubmit);
+editProfileModal.setEventListeners();
+
+editButton.addEventListener('click', () => {
+    const { name, description } = userInfo.getUserInfo();
+    profileNameInput.value = name;
+    profileDescriptionInput.value = description;
+    formValidators[profileEditForm.getAttribute('name')].disableButton();
+    editProfileModal.open();
+})
+
+//PopupWithImage
+const popupImage = new PopupWithImage(selectors.previewPopup);
+popupImage.close();
 
 //Changing avatar
 
@@ -186,3 +186,25 @@ selectors.updateAvatarButton.addEventListener('click', () => {
 })
 
 //Confirm delete modal
+
+const confirmDeleteModal = new PopupWithConfirm(selectors.confirmDeleteModal, 
+    (card) => {handleDelete(card)});
+
+confirmDeleteModal.setEventListeners();
+
+const handleDelete = (card) => {
+    confirmDeleteModal.open(() => {
+        confirmDeleteModal.showLoading();
+        api.deleteCard(card.getCardId())
+            .then(() => {
+                card.deleteCard();
+                confirmDeleteModal.close();
+            })
+            .catch((err) => {
+                console.err(err);
+            })
+            .finally(() => {
+                confirmDeleteModal.hideLoading();
+            })
+    })
+}
