@@ -60,7 +60,11 @@ const setIsLiked = (card) => {
 }
 
 //UserInfo
-const userInfo = new UserInfo(selectors.profileTitle, selectors.profileDescription, selectors.profileAvatar);
+const userInfo = new UserInfo({
+    nameEl: selectors.profileTitle, 
+    descriptionEl: selectors.profileDescription, 
+    avatarEl: selectors.profileAvatar,
+});
 
 
 Promise.all([api.fetchUserInfo(), api.getInitialCards()])

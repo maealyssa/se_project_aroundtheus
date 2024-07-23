@@ -57,4 +57,5 @@ export const selectors = {
     changeAvatarPopup: "#change-avatar-modal",
     avatarForm: "#avatar-form",
     updateAvatarButton: "#modal-avatar-button",
+    confirmDeleteModal: "#confirm-delete-modal",
 };

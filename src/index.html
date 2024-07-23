@@ -12,7 +12,7 @@
                     class="header__logo" 
                     id="header-logo" 
                     alt="Around the US logo" 
-                    src=""
+                    src="<%=require('./images/logo.svg')%>"
                 />
             </header>
             <main class="content">
@@ -104,6 +104,14 @@
                     <span class="modal__error" id="card-input-avatar-error"></span>
                     <button class="modal__button" id="modal-avatar-button" type="submit">Save</button>
                 </form>
+            </div>
+        </div>
+        <!-- Confirm delete modal -->
+        <div class="modal" id="confirm-delete-modal">
+            <div class="modal__container">
+                <button class="modal__close"></button>
+                    <h3 class="modal__heading">Are you sure?</h3>
+                    <button class="modal__button" id="confirm-delete-button" type="button">Yes</button>
             </div>
         </div>
         <!-- Image modal -->
