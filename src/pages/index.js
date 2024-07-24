@@ -69,10 +69,7 @@ const userInfo = new UserInfo(
 
 Promise.all([api.fetchUserInfo(), api.getInitialCards()])
     .then(([userData, cards]) => {
-        userInfo.setUserInfo({
-            name: userData.name,
-            description: userData.about,
-        });
+        userInfo.setUserInfo(userData.name, userData.about);
         userInfo.setAvatarImage(userData.avatar)
         section = new Section(
             {

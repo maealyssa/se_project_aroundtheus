@@ -29,11 +29,12 @@ export default class Api {
                 ? res.json()
                 : Promise.reject("An error has occurred", res.status)
         })
-        .then((res) => {return res})
+        .then((res) => {
+            return res;
+        })
         .catch((err) => {
             console.error(err)
-        })
-
+        });
     }
 
     editProfile({ name, about }) {
@@ -64,11 +65,14 @@ export default class Api {
         });
     }
 
-    addNewCard({ name, link }) {
+    addNewCard({ cardName, cardLink }) {
         return fetch(`${this._baseUrl}/cards`, {
             method: "POST",
             headers: this._headers,
-            body: JSON.stringify({ name, link }),
+            body: JSON.stringify({ 
+                name: cardName, 
+                link: cardLink
+            }),
         });
     }
 
