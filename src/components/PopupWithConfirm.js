@@ -1,9 +1,8 @@
 import Popup from "./Popup";
 
 export default class PopupWithConfirm extends Popup {
-    constructor(popupSelector, handleDelete, loadingButtonText = "Deleting...") {
+    constructor(popupSelector) {
         super({ popupSelector });
-        this._handleDelete = handleDelete;
         this._submitButton = this._popup.querySelector(".modal__button");
         this._loadingButtonText = loadingButtonText;
     }
@@ -11,11 +10,9 @@ export default class PopupWithConfirm extends Popup {
     setEventListeners() {
         super.setEventListeners();
 
-        this._submitButton.addEventListener('click', (evt) => {
+        this._submitButton.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            if (this._handleDeleteCallback) {
-                this._handleDeleteCallback();
-            }
+            this._handleDeleteSubmit();
         });
     }
 
@@ -24,11 +21,7 @@ export default class PopupWithConfirm extends Popup {
         super.open();
     }
 
-    showLoading() {
-        this._submitButton.textContent = this._loadingButtonText;
-      }
-    
-    hideLoading() {
-        this._submitButton.textContent = this._submitButton.textContent;
+    setSubmitAction(action) {
+        this._handleDeleteSubmit = action;
     }
 }

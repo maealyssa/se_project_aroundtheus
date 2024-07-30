@@ -28,15 +28,14 @@ export default class Api {
 
     editProfile({ name, description }) {
         return fetch(`${this._url}/users/me`, {
-            method: "PATCH",
-            headers: this._headers,
-            body: JSON.stringify({ 
-                name: name, 
-                about: description, 
-            }),
-        })
-        .then(this._checkResponse);
-    }
+          method: "PATCH",
+          headers: this._headers,
+          body: JSON.stringify({
+            name: name,
+            about: description,
+          }),
+        }).then(this._checkResponse);
+      }
 
     editProfileAvatar({ link }) {
         return fetch(`${this._url}/users/me/avatar`, {
@@ -70,7 +69,7 @@ export default class Api {
     }
 
     addLike(cardId) {
-        return fetch(`${this._url}/cards/likes/${cardId}`, {
+        return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: "PUT",
             headers: this._headers,
         })

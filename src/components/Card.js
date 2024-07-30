@@ -1,21 +1,23 @@
 class Card {
-  constructor(data, handleImageClick, handleDelete, cardSelector, setIsLiked) {
+  constructor(data, cardSelector, handleImageClick, handleLikeCard, handleDelete, currentUserId) {
       this._name = data.name;
       this._link = data.link;
       this._cardId = data._id;
-      this._isLiked = data.isLiked;
+      this._likes = data.likes;
 
       this._cardSelector = cardSelector;
       this._handleImageClick = handleImageClick;
       this._handleDelete = handleDelete;
-      this._setIsLiked = setIsLiked;
+      this._handleLikeCard = handleLikeCard;
+      this._currentUserId = currentUserId;
+      this._owner = data.owner._id;
     }
     
     _setEventListeners() {
 
       //like button
-      this._likeButton = this._element.querySelector(".card__like-button");
-      this._likeButton.addEventListener('click', () => this._setIsLiked(this));
+      this.likeButton = this._element.querySelector(".card__like-button");
+      this.likeButton.addEventListener('click', () => this._setIsLiked(this));
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
@@ -33,14 +35,16 @@ class Card {
       .cloneNode(true);
     }
 
-    _handleLike() {
-      this._isLiked 
-        ? this._likeButton.classList.add("card__like-button_active") 
-        : this._likeButton.classList.remove("card__like-button_active")
+    handleLike() {
+      if(this.isLiked) {
+        this.likeButton.classList.add("card__like-button_active")
+      } else {
+        this.likeButton.classList.remove("card__like-button_active")
+      }
     }
 
     isLiked() {
-      return this._isLiked;
+      return this._likes.some((like) => like._cardId === this._currentUserId);
     }
 
     deleteCard() {
@@ -59,13 +63,9 @@ class Card {
       cardTitle.textContent = this._name;
 
       this._setEventListeners();
-      this._handleLike();
+      this.handleLike();
 
       return this._element;
-    }
-
-    getCardId() {
-      return this._cardId;
     }
   }
 

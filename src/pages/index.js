@@ -19,6 +19,13 @@ const profileEditForm = document.forms['profile-form'];
 const profileNameInput = document.querySelector('#profile-input-name');
 const profileDescriptionInput = document.querySelector('#profile-input-description');
 
+//UserInfo
+const userInfo = new UserInfo(
+    selectors.profileTitle, 
+    selectors.profileDescription, 
+    selectors.profileAvatar,
+);
+
 //API 
 const api = new Api({
     baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -29,15 +36,20 @@ const api = new Api({
 });
 
 let section;
+let currentUserId;
 
 Promise.all([api.fetchUserInfo(), api.getInitialCards()])
     .then(([userData, cards]) => {
+        currentUserId = userData._id;
         userInfo.setUserInfo(userData.name, userData.about);
         userInfo.setAvatarImage(userData.avatar);
         section = new Section(
             {
                 items: cards,
-                renderer: renderCard
+                renderer: (data) => {
+                    const card = renderCard(data);
+                    section.addItem(card);
+                }
             },
             selectors.cardsList
         );
@@ -48,43 +60,46 @@ Promise.all([api.fetchUserInfo(), api.getInitialCards()])
     });
 
 //rendering card
+
+//PopupWithImage
+const popupImage = new PopupWithImage(selectors.previewPopup);
+popupImage.close();
+
+
 const handleImageClick = (imageData) => {
     popupImage.open(imageData)
 }
 
-const setIsLiked = (card) => {
-    card.isLiked()
-        ? api.deleteLike(card.getCardId())
-            .then((res) => {
-                card.setIsLiked(false);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-        : api.addLike(card.getCardId())
-            .then((res) => {
-                card.setIsLiked(true);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-}
-
 const handleDelete = (card) => {
-    confirmDeleteModal.open(() => {
-        confirmDeleteModal.showLoading();
-        api.deleteCard(card.getCardId())
+    confirmDeleteModal.open();
+    confirmDeleteModal.setSubmitAction(() => {
+        confirmDeleteModal.renderLoading(true);
+        api.deleteCard(cardId)
             .then(() => {
                 card.deleteCard();
                 confirmDeleteModal.close();
             })
             .catch((err) => {
-                console.err(err);
+                console.log(err);
             })
             .finally(() => {
-                confirmDeleteModal.hideLoading();
+                confirmDeleteModal.renderLoading(false);
             })
     })
+}
+
+const handleLikeCard = (removeLike) => {
+    if(removeLike) {
+        api.removeLike(data)
+            .catch((err) => {
+                console.log(err);
+            })
+    } else {
+        api.addLike(data)
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 }
 
 const confirmDeleteModal = new PopupWithConfirm(selectors.confirmDeleteModal, 
@@ -93,17 +108,10 @@ const confirmDeleteModal = new PopupWithConfirm(selectors.confirmDeleteModal,
 confirmDeleteModal.setEventListeners();
 
 const renderCard = (data) => {
-    const card = new Card(data, handleImageClick, handleDelete, selectors.cardTemplate, setIsLiked);
+    const card = new Card(data, handleImageClick, handleLikeCard, handleDelete, currentUserId,);
 
     return card.generateCard();
 };
-
-//UserInfo
-const userInfo = new UserInfo(
-    selectors.profileTitle, 
-    selectors.profileDescription, 
-    selectors.profileAvatar,
-);
 
 // validation
 const formValidators = {};
@@ -124,11 +132,10 @@ enableValidation(formValidationConfig);
 
 // Adding New Card Form
 const handleAddCardSubmit = (data) => {
-    addCardForm.showLoading();
-    const { name, link } = data;
-    return api.addNewCard(name, link)
-        .then((data) => {
-            const cardEl = renderCard(data);
+    addCardForm.renderLoading(true);
+    api.addNewCard(data)
+        .then((cardData) => {
+            const cardEl = renderCard(cardData);
             section.addItem(cardEl);
             addCardForm.close();
         })
@@ -136,30 +143,33 @@ const handleAddCardSubmit = (data) => {
             console.log(err)
         })
         .finally(() => {
-            addCardForm.hideLoading();
+            addCardForm.renderLoading(false);
         });
 }
 
 const addCardForm = new PopupWithForm(selectors.addFormPopup, handleAddCardSubmit);
-
+addCardForm.setEventListeners();
 addButton.addEventListener('click', () => {
     formValidators[addNewCardForm.getAttribute('name')].resetValidation();
     addCardForm.open();
 })
 
 //Edit Profile Form
-const handleProfileFormSubmit = ({ title, description }) => {
-    editProfileModal.showLoading();
-    return api.editProfile(title, description)
+const handleProfileFormSubmit = (input) => {
+    editProfileModal.renderLoading(true);
+    api.editProfile(input)
         .then(() => {
-            userInfo.setUserInfo({ name: title, description: description });
+            userInfo.setUserInfo({
+                name: input.name,
+                description: input.description,
+            });
             editProfileModal.close();
         })
         .catch((err) => {
             console.error(err);
         })
         .finally(() => {
-            editProfileModal.hideLoading();
+            editProfileModal.renderLoading(false);
         });
 }
 
@@ -174,24 +184,19 @@ editButton.addEventListener('click', () => {
     editProfileModal.open();
 })
 
-//PopupWithImage
-const popupImage = new PopupWithImage(selectors.previewPopup);
-popupImage.close();
-
 //Changing avatar
-const handleUpdateAvatar = ({ link }) => {
-    updateAvatarModal.showLoading();
-    return api.updateAvatar(link)
+const handleUpdateAvatar = (input) => {
+    updateAvatarModal.renderLoading(true);
+    api.editProfileAvatar(input)
         .then((data) => {
             userInfo.setAvatarImage(data.avatar);
             updateAvatarModal.close();
-            updateAvatarModal.reset();
         })
         .catch((err) => {
             console.error(err);
         })
         .finally(() => {
-            updateAvatarModal.hideLoading();
+            updateAvatarModal.renderLoading(false);
         })
 }
 

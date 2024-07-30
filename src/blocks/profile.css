@@ -63,6 +63,24 @@
     margin-right: 24px;
 }
 
+.profile__avatar:hover {
+    opacity: 0.2;
+  }
+
+.profile__avatar-edit {
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    opacity: 0;
+    top: 47px;
+    left: 47px;
+    transition: opacity 0.15s;
+    pointer-events: none;
+  }
+
+.profile__avatar:hover .profile__avatar-edit {
+    opacity: 1;
+}
+
 .profile__description {
     grid-area: description;
     white-space: nowrap;
