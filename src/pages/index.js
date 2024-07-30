@@ -17,6 +17,9 @@ const profileAvatar = document.querySelector('.profile__avatar');
 const addNewCardForm = document.forms['card-form'];
 const profileEditForm = document.forms['profile-form'];
 
+const formInputName = document.querySelector('#profile-input-name');
+const formInputDescription = document.querySelector('#profile-input-description');
+
 //UserInfo
 const userInfo = new UserInfo({
     nameEl: selectors.profileTitle, 
@@ -158,8 +161,8 @@ const handleProfileFormSubmit = (input) => {
 
 const openProfileModal = () => {
     const { name, description } = userInfo.getUserInfo();
-    selectors.formInputName.value = name;
-    selectors.formInputDescription.value = description;
+    formInputName.value = name;
+    formInputDescription.value = description;
     formValidators[profileEditForm.getAttribute('name')].resetValidation();
     editProfileModal.open();
 }

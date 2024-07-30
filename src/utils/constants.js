@@ -52,9 +52,6 @@ export const selectors = {
     profileAvatar: '.profile__avatar',
     formModalContainer: '.modal__container',
     imageModalContainer: '.modal__container-image',
-    formInputName: '#profile-input-name',
-    formInputDescription: '#profile-input-description',
     changeAvatarPopup: "#change-avatar-modal",
-    avatarForm: "#avatar-form",
     confirmDeleteModal: "#confirm-delete-modal",
 };
