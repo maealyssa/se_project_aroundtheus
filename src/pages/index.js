@@ -32,16 +32,12 @@ let section;
 
 Promise.all([api.fetchUserInfo(), api.getInitialCards()])
     .then(([userData, cards]) => {
-        console.log(userData);
         userInfo.setUserInfo(userData.name, userData.about);
         userInfo.setAvatarImage(userData.avatar);
         section = new Section(
             {
                 items: cards,
-                renderer: (data) => {
-                    const cardEl = renderCard(data);
-                    cardSection.addItem(cardEl);
-                },
+                renderer: renderCard
             },
             selectors.cardsList
         );
