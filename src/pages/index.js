@@ -12,6 +12,7 @@ import Api from "../components/Api.js";
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const profileAvatar = document.querySelector('.profile__avatar');
 
 const addNewCardForm = document.forms['card-form'];
 const profileEditForm = document.forms['profile-form'];
@@ -183,7 +184,7 @@ const handleUpdateAvatar = (input) => {
 const updateAvatarModal = new PopupWithForm(selectors.changeAvatarPopup, handleUpdateAvatar);
 updateAvatarModal.setEventListeners();
 
-selectors.profileAvatar.addEventListener('click', () => {
+profileAvatar.addEventListener('click', () => {
     updateAvatarModal.open();
     formValidators[selectors.avatarForm.getAttribute('name')].resetValidation();
 })
