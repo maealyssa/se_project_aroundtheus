@@ -19,16 +19,37 @@ const profileEditForm = document.forms['profile-form'];
 const profileNameInput = document.querySelector('#profile-input-name');
 const profileDescriptionInput = document.querySelector('#profile-input-description');
 
-let section;
-
 //API 
 const api = new Api({
     baseUrl: "https://around-api.en.tripleten-services.com/v1",
     headers: {
       authorization: "174196d6-45bd-490a-bc0e-39b0754c7da9",
       "Content-Type": "application/json",
-    }
+    },
 });
+
+let section;
+
+Promise.all([api.fetchUserInfo(), api.getInitialCards()])
+    .then(([userData, cards]) => {
+        console.log(userData);
+        userInfo.setUserInfo(userData.name, userData.about);
+        userInfo.setAvatarImage(userData.avatar);
+        section = new Section(
+            {
+                items: cards,
+                renderer: (data) => {
+                    const cardEl = renderCard(data);
+                    cardSection.addItem(cardEl);
+                },
+            },
+            selectors.cardsList
+        );
+        section.renderItems();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 //rendering card
 const renderCard = (data) => {
@@ -65,28 +86,6 @@ const userInfo = new UserInfo(
     selectors.profileDescription, 
     selectors.profileAvatar,
 );
-
-
-Promise.all([api.fetchUserInfo(), api.getInitialCards()])
-    .then(([userData, cards]) => {
-        console.log(userData);
-        userInfo.setUserInfo(userData.name, userData.about);
-        userInfo.setAvatarImage(userData.avatar);
-        section = new Section(
-            {
-                items: cards,
-                renderer: (data) => {
-                    const cardEl = renderCard(data);
-                    cardSection.addItem(cardEl);
-                },
-            },
-            selectors.cardsList
-        );
-        section.renderItems();
-    })
-    .catch((err) => {
-        console.log(err);
-    })
 
 // validation
 const formValidators = {};

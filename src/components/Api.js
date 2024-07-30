@@ -1,117 +1,87 @@
 export default class Api {
     constructor({ baseUrl, headers }) {
-        this._baseUrl = baseUrl;
+        this._url = baseUrl;
         this._headers = headers;
+        this._authorization = headers.authorization;
+    }
+
+    _checkResponse(res) {
+        if(res.ok) {
+            return res.json();
+        }
+        return Promise.reject(`Error ${res.status}`);
     }
 
     getInitialCards() {
-        return fetch(`${this._baseUrl}/cards`, {
+        return fetch(`${this._url}/cards`, {
             headers: this._headers,
             })
-            .then((res) => {
-                res.ok 
-                    ? res.json()
-                    : Promise.reject("An error has occurred", res.status)
-            })
-            .then((res) => {return res})
-            .catch((err) => {
-                console.error(err)
-            });
-
+            .then(this._checkResponse);
     }
       
     fetchUserInfo() {
-        return fetch(`${this._baseUrl}/users/me`, {
+        return fetch(`${this._url}/users/me`, {
             headers: this._headers,
         })
-        .then((res) => {
-            res.ok 
-                ? res.json()
-                : Promise.reject("An error has occurred", res.status)
-        })
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            console.error(err)
-        });
+        .then(this._checkResponse);
     }
 
-    editProfile({ name, about }) {
-        return fetch(`${this._baseUrl}/users/me`, {
+    editProfile({ name, description }) {
+        return fetch(`${this._url}/users/me`, {
             method: "PATCH",
             headers: this._headers,
             body: JSON.stringify({ 
                 name: name, 
-                about: about 
+                about: description, 
             }),
-        });
+        })
+        .then(this._checkResponse);
     }
 
     editProfileAvatar({ link }) {
-        return fetch(`${this._baseUrl}/users/me/avatar`, {
+        return fetch(`${this._url}/users/me/avatar`, {
             method: "PATCH",
             headers: this._headers,
-            body: JSON.stringify({ avatar: link }),
+            body: JSON.stringify({ 
+                avatar: link,
+            }),
         })
-        .then((res) => {
-            res.ok 
-                ? res.json()
-                : Promise.reject("An error has occurred", res.status)
-        })
-        .then((res) => {return res})
-        .catch((err) => {
-            console.error(err)
-        });
+        .then(this._checkResponse);
     }
 
     addNewCard({ cardName, cardLink }) {
-        return fetch(`${this._baseUrl}/cards`, {
+        return fetch(`${this._url}/cards`, {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify({ 
                 name: cardName, 
-                link: cardLink
+                link: cardLink,
             }),
-        });
+        })
+        .then(this._checkResponse);
     }
 
-    deleteCard({ cardId }) {
-        return fetch(`${this._baseUrl}/cards/${cardId}`, {
+    deleteCard(cardId) {
+        return fetch(`${this._url}/cards/${cardId}`, {
             method: "DELETE",
             headers: this._headers,
         })
+        .then(this._checkResponse);
     }
 
-    addLike({ cardId }) {
-        return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    addLike(cardId) {
+        return fetch(`${this._url}/cards/likes/${cardId}`, {
             method: "PUT",
             headers: this._headers,
         })
-        .then((res) => {
-            res.ok 
-                ? res.json()
-                : Promise.reject("An error has occurred", res.status)
-        })
-        .then((res) => {return res})
-        .catch((err) => {
-            console.error(err)
-        });
+        .then(this._checkResponse);
     }
 
-    deleteLike({ cardId }) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    deleteLike(cardId) {
+        return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: "DELETE",
             headers: this._headers,
         })
-        .then((res) => {
-            res.ok 
-                ? res.json()
-                : Promise.reject("An error has occurred", res.status)
-        })
-        .then((res) => {return res})
-        .catch((err) => {
-            console.error(err)
-        });
+        .then(this._checkResponse);
     }
   }
