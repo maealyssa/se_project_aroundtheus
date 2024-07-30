@@ -4,7 +4,6 @@ export default class PopupWithConfirm extends Popup {
     constructor(popupSelector) {
         super({ popupSelector });
         this._submitButton = this._popup.querySelector(".modal__button");
-        this._loadingButtonText = loadingButtonText;
     }
 
     setEventListeners() {
