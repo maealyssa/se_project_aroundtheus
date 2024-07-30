@@ -197,7 +197,7 @@ const handleUpdateAvatar = ({ link }) => {
 
 const updateAvatarModal = new PopupWithForm(selectors.changeAvatarPopup, handleUpdateAvatar);
 updateAvatarModal.setEventListeners();
-selectors.updateAvatarButton.addEventListener('click', () => {
-    formValidators[selectors.avatarForm.getAttribute('name')].resetValidation();
-    updateAvatarModal.open();
-});
+// selectors.updateAvatarButton.addEventListener('click', () => {
+//     formValidators[selectors.avatarForm.getAttribute('name')].resetValidation();
+//     updateAvatarModal.open();
+// });
