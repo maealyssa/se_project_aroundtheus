@@ -2,26 +2,28 @@ class Card {
   constructor(data, cardSelector, handleImageClick, handleLikeCard, handleDelete, currentUserId) {
       this._name = data.name;
       this._link = data.link;
-      this._cardId = data._id;
-      this._likes = data.likes;
+      this._id = data._id;
+      this._isLiked - data.isLiked; 
 
       this._cardSelector = cardSelector;
       this._handleImageClick = handleImageClick;
       this._handleDelete = handleDelete;
       this._handleLikeCard = handleLikeCard;
       this._currentUserId = currentUserId;
-      this._owner = data.owner._id;
     }
     
     _setEventListeners() {
 
       //like button
       this.likeButton = this._element.querySelector(".card__like-button");
-      this.likeButton.addEventListener('click', () => this._setIsLiked(this));
+      this.likeButton.addEventListener('click', () => {
+        this._handleLikeCard();
+        this._handleLike()
+      });
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
-      trashButton.addEventListener('click', () => this._handleDelete);
+      trashButton.addEventListener('click', () => this._handleDelete());
 
       //image modal click
       this._imageModal = this._element.querySelector('.card__image');
@@ -31,20 +33,12 @@ class Card {
     _getTemplate() {
       return document
       .querySelector(this._cardSelector)
-      .content.querySelector(".card")
+      .content.firstElementChild
       .cloneNode(true);
     }
 
-    handleLike() {
-      if(this.isLiked) {
-        this.likeButton.classList.add("card__like-button_active")
-      } else {
-        this.likeButton.classList.remove("card__like-button_active")
-      }
-    }
-
-    isLiked() {
-      return this._likes.some((like) => like._cardId === this._currentUserId);
+    _handleLike() {
+      this.likeButton.classList.toggle("card__like-button_active");
     }
 
     deleteCard() {
@@ -63,7 +57,6 @@ class Card {
       cardTitle.textContent = this._name;
 
       this._setEventListeners();
-      this.handleLike();
 
       return this._element;
     }

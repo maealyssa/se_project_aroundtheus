@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="./images/favicon.ico">
         <title>Around The U.S.</title>
     </head>
     <body class="page">
@@ -22,11 +23,13 @@
                         id="profile-avatar"
                         src="<%=require('./images/jacques-cousteau.jpg')%>" 
                         alt="Avatar">
-                    <img
-                        src="<%=require('./images/edit-pencil.svg')%>"
-                        alt="avatar"
-                        class="profile__avatar-edit"
-                      />
+                    <div class="profile__avatar-overlay">
+                        <img
+                            src="<%=require('./images/edit-pencil.svg')%>"
+                            alt="avatar"
+                            class="profile__avatar-edit"
+                        />
+                    </div>
                     <div class="profile__info">
                         <h1 class="profile__title">Jacques Cousteau</h1>
                         <button class="profile__edit-button" type="button"></button>
@@ -104,9 +107,10 @@
                     <h3 class="modal__heading">Change profile picture</h3>
                     <input class="modal__input" 
                         id="avatar-input-url"
+                        name="link"
                         type="url" 
                         required>
-                    <span class="modal__error" id="card-input-avatar-error"></span>
+                    <span class="modal__error" id="avatar-input-url-error"></span>
                     <button class="modal__button" id="modal-avatar-button" type="submit">Save</button>
                 </form>
             </div>
@@ -115,8 +119,10 @@
         <div class="modal" id="confirm-delete-modal">
             <div class="modal__container">
                 <button class="modal__close"></button>
+                <form class="modal__form">
                     <h3 class="modal__heading">Are you sure?</h3>
-                    <button class="modal__button" id="confirm-delete-button" type="button">Yes</button>
+                    <button class="modal__button" id="confirm-delete-button" type="submit">Yes</button>
+                </form>
             </div>
         </div>
         <!-- Image modal -->
