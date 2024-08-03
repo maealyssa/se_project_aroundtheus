@@ -31,7 +31,7 @@ const userInfo = new UserInfo({
 });
 
 // ! ||--------------------------------------------------------------------------------||
-// ! ||                                         API                                    ||
+// ! ||                                     API                                        ||
 // ! ||--------------------------------------------------------------------------------||
 const api = new Api({
     baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -64,9 +64,7 @@ Promise.all([api.fetchUserInfo(), api.getInitialCards()])
         );
         section.renderItems();
     })
-    .catch((err) => {
-        console.log(err);
-    });
+    .catch(console.error);
 
 // ! ||--------------------------------------------------------------------------------||
 // ! ||                                  rendering cards                               ||
@@ -82,13 +80,13 @@ const renderCard = (data) => {
         handleImageClick, 
         () => {
             api.addLike(data._id)
-                .then(card.addLike())
-                .catch(err => console.log(err));
+                .then(() => { card.addLike() })
+                .catch(console.error);
         },
         () => {
             api.deleteLike(data._id)
-                .then(card.disLike())
-                .catch(err => console.log(err));
+                .then(() => { card.disLike() })
+                .catch(console.error);
         }, 
         () => {
             confirmDeleteModal.open();
@@ -98,9 +96,7 @@ const renderCard = (data) => {
                         card.deleteCard();
                         confirmDeleteModal.close();
                     })
-                    .catch((err) => {
-                        console.log(err);
-                    })
+                    .catch(console.error)
             })
         },
         );
@@ -131,44 +127,19 @@ enableValidation(formValidationConfig);
 // ! ||                                      Handlers                                  ||
 // ! ||--------------------------------------------------------------------------------||
 
-// Adding New Card Form handler
-const handleAddCardSubmit = (data) => {
-    addCardForm.renderLoading(true);
-    api.addNewCard({
-        cardName: data.name,
-        cardLink: data.link,
+function handleSubmit(request, modal, loadingText = "Saving...") {
+    modal.renderLoading(true, loadingText);
+    request()
+        .then(() => {
+            modal.close()
         })
-        .then((cardData) => {
-            const cardEl = renderCard(cardData);
-            section.addItem(cardEl);
-            addCardForm.close();
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        .catch(console.error)
         .finally(() => {
-            addCardForm.renderLoading(false);
+            modal.renderLoading(false);
         });
-}
+  }
 
 //Edit Profile Form handler
-const handleProfileFormSubmit = (input) => {
-    editProfileModal.renderLoading(true);
-    api.editProfile(input)
-        .then(() => {
-            userInfo.setUserInfo({
-                name: input.name,
-                description: input.description,
-            });
-            editProfileModal.close();
-        })
-        .catch((err) => {
-            console.error(err);
-        })
-        .finally(() => {
-            editProfileModal.renderLoading(false);
-        });
-}
 
 const openProfileModal = () => {
     const { name, description } = userInfo.getUserInfo();
@@ -178,20 +149,39 @@ const openProfileModal = () => {
     editProfileModal.open();
 }
 
+const handleProfileFormSubmit = (inputValues) => {
+    function makeRequest() {
+      return api.editProfile(inputValues).then((userData) => {
+        userInfo.setUserInfo(userData)
+      });
+    }
+    handleSubmit(makeRequest, editProfileModal);
+}
+
+// Adding New Card Form handler
+const handleAddCardSubmit = (data) => {
+    function makeRequest() {
+        return api.addNewCard({
+            cardName: data.name,
+            cardLink: data.link,
+        })
+        .then((cardData) => {
+            const cardEl = renderCard(cardData);
+            section.addItem(cardEl);
+        });
+    }
+    handleSubmit(makeRequest, addCardForm);
+}
+
 //Changing avatar handler
 const handleUpdateAvatar = (input) => {
-    updateAvatarModal.renderLoading(true);
-    api.editProfileAvatar(input)
-        .then((data) => {
-            userInfo.setAvatarImage(data.avatar);
-            updateAvatarModal.close();
-        })
-        .catch((err) => {
-            console.error(err);
-        })
-        .finally(() => {
-            updateAvatarModal.renderLoading(false);
-        })
+    function makeRequest() {
+        return api.editProfileAvatar(input)
+            .then((data) => {
+                userInfo.setAvatarImage(data.avatar)
+            });
+    }
+    handleSubmit(makeRequest, updateAvatarModal);
 }
 
 // ! ||--------------------------------------------------------------------------------||
@@ -209,7 +199,6 @@ profileAvatar.addEventListener('click', () => {
 
 //PopupWithImage
 const popupImage = new PopupWithImage(selectors.previewPopup);
-popupImage.close();
 
 //delete modal
 const confirmDeleteModal = new PopupWithConfirm(selectors.confirmDeleteModal);
