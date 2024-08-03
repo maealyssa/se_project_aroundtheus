@@ -149,10 +149,14 @@ const openProfileModal = () => {
     editProfileModal.open();
 }
 
-const handleProfileFormSubmit = (inputValues) => {
+const handleProfileFormSubmit = (input) => {
     function makeRequest() {
-      return api.editProfile(inputValues).then((userData) => {
-        userInfo.setUserInfo(userData)
+      return api.editProfile(input)
+        .then(() => {
+            userInfo.setUserInfo({
+                name: input.name,
+                description: input.description,
+            })
       });
     }
     handleSubmit(makeRequest, editProfileModal);
