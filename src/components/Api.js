@@ -2,7 +2,6 @@ export default class Api {
     constructor({ baseUrl, headers }) {
         this._url = baseUrl;
         this._headers = headers;
-        this._authorization = headers.authorization;
     }
 
     _checkResponse(res) {
@@ -12,76 +11,72 @@ export default class Api {
         return Promise.reject(`Error ${res.status}`);
     }
 
+    _request(url, options) {
+        return fetch(url, options).then(this._checkResponse);
+    }
+
     getInitialCards() {
-        return fetch(`${this._url}/cards`, {
+        return this._request(`${this._url}/cards`, {
             headers: this._headers,
-            })
-            .then(this._checkResponse);
+        });
     }
       
     fetchUserInfo() {
-        return fetch(`${this._url}/users/me`, {
+        return this._request(`${this._url}/users/me`, {
             headers: this._headers,
-        })
-        .then(this._checkResponse);
+        });
     }
 
     editProfile({ name, description }) {
-        return fetch(`${this._url}/users/me`, {
+        return this._request(`${this._url}/users/me`, {
           method: "PATCH",
           headers: this._headers,
           body: JSON.stringify({
             name: name,
             about: description,
           }),
-        }).then(this._checkResponse);
+        });
       }
 
     editProfileAvatar({ link }) {
-        debugger
-        return fetch(`${this._url}/users/me/avatar`, {
+        return this._request(`${this._url}/users/me/avatar`, {
             method: "PATCH",
             headers: this._headers,
             body: JSON.stringify({ 
                 avatar: link,
             }),
-        })
-        .then(this._checkResponse);
+        });
     }
 
     addNewCard({ cardName, cardLink }) {
-        return fetch(`${this._url}/cards`, {
+        return this._request(`${this._url}/cards`, {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify({ 
                 name: cardName, 
                 link: cardLink,
             }),
-        })
-        .then(this._checkResponse);
+        });
     }
 
     deleteCard(cardId) {
-        return fetch(`${this._url}/cards/${cardId}`, {
+        return this._request(`${this._url}/cards/${cardId}`, {
             method: "DELETE",
             headers: this._headers,
-        })
-        .then(this._checkResponse);
+        });
     }
 
     addLike(cardId) {
-        return fetch(`${this._url}/cards/${cardId}/likes`, {
+        return this._request(`${this._url}/cards/${cardId}/likes`, {
             method: "PUT",
             headers: this._headers,
-        })
-        .then(this._checkResponse);
+        });
     }
 
     deleteLike(cardId) {
-        return fetch(`${this._url}/cards/${cardId}/likes`, {
+        return this._request(`${this._url}/cards/${cardId}/likes`, {
             method: "DELETE",
             headers: this._headers,
-        })
-        .then(this._checkResponse);
+        });
     }
   }

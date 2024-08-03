@@ -12,7 +12,7 @@ import Api from "../components/Api.js";
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const profileAvatar = document.querySelector('.profile__avatar');
+const profileAvatar = document.querySelector('.profile__avatar-edit');
 
 const addNewCardForm = document.forms['card-form'];
 const profileEditForm = document.forms['profile-form'];
@@ -21,14 +21,18 @@ const updateAvatarForm = document.forms['avatar-form'];
 const formInputName = document.querySelector('#profile-input-name');
 const formInputDescription = document.querySelector('#profile-input-description');
 
-//UserInfo
+// ! ||--------------------------------------------------------------------------------||
+// ! ||                                    User Info                                   ||
+// ! ||--------------------------------------------------------------------------------||
 const userInfo = new UserInfo({
     nameEl: selectors.profileTitle, 
     descriptionEl: selectors.profileDescription, 
     avatarEl: selectors.profileAvatar,
 });
 
-//API 
+// ! ||--------------------------------------------------------------------------------||
+// ! ||                                         API                                    ||
+// ! ||--------------------------------------------------------------------------------||
 const api = new Api({
     baseUrl: "https://around-api.en.tripleten-services.com/v1",
     headers: {
@@ -64,7 +68,9 @@ Promise.all([api.fetchUserInfo(), api.getInitialCards()])
         console.log(err);
     });
 
-//rendering card
+// ! ||--------------------------------------------------------------------------------||
+// ! ||                                  rendering cards                               ||
+// ! ||--------------------------------------------------------------------------------||
 const handleImageClick = (imageData) => {
     popupImage.open(imageData)
 }
@@ -75,17 +81,14 @@ const renderCard = (data) => {
         selectors.cardTemplate, 
         handleImageClick, 
         () => {
-            if(data.isLiked) {
-                api.deleteLike(data._id)
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            } else {
-                api.addLike(data._id)
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            }
+            api.addLike(data._id)
+                .then(card.addLike())
+                .catch(err => console.log(err));
+        },
+        () => {
+            api.deleteLike(data._id)
+                .then(card.disLike())
+                .catch(err => console.log(err));
         }, 
         () => {
             confirmDeleteModal.open();
@@ -100,12 +103,14 @@ const renderCard = (data) => {
                     })
             })
         },
-        currentUserId);
+        );
 
     return card.generateCard();
 };
 
-// validation
+// ! ||--------------------------------------------------------------------------------||
+// ! ||                                       validations                              ||
+// ! ||--------------------------------------------------------------------------------||
 const formValidators = {};
 
 const enableValidation = (formValidationConfig) => {
@@ -122,6 +127,10 @@ const enableValidation = (formValidationConfig) => {
 
 enableValidation(formValidationConfig);
 
+// ! ||--------------------------------------------------------------------------------||
+// ! ||                                      Handlers                                  ||
+// ! ||--------------------------------------------------------------------------------||
+
 // Adding New Card Form handler
 const handleAddCardSubmit = (data) => {
     addCardForm.renderLoading(true);
@@ -130,11 +139,7 @@ const handleAddCardSubmit = (data) => {
         cardLink: data.link,
         })
         .then((cardData) => {
-            const cardEl = renderCard({
-                name: cardData.name,
-                link: cardData.link,
-                id: cardData._id
-            });
+            const cardEl = renderCard(cardData);
             section.addItem(cardEl);
             addCardForm.close();
         })
@@ -173,7 +178,7 @@ const openProfileModal = () => {
     editProfileModal.open();
 }
 
-//Changing avatar helper
+//Changing avatar handler
 const handleUpdateAvatar = (input) => {
     updateAvatarModal.renderLoading(true);
     api.editProfileAvatar(input)
