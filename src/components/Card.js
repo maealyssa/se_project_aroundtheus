@@ -1,17 +1,23 @@
 class Card {
-    constructor({ data, handleImageClick }, cardSelector) {
+  constructor(data, cardSelector, handleImageClick, handleLikeCard, handleDislikeCard, handleDelete) {
       this._name = data.name;
       this._link = data.link;
+      this._id = data._id;
+      this._isLiked = data.isLiked; 
 
       this._cardSelector = cardSelector;
       this._handleImageClick = handleImageClick;
+      this._handleDelete = handleDelete;
+      this._handleLikeCard = handleLikeCard;
+      this._handleDislikeCard = handleDislikeCard;
     }
     
     _setEventListeners() {
 
       //like button
-      this._likeButton = this._element.querySelector(".card__like-button");
-      this._likeButton.addEventListener('click', this._handleLike);
+      this.likeButton.addEventListener('click', () => {
+        this._handleLike(this);
+      });
 
       //trash button
       const trashButton = this._element.querySelector('.card__trash-button');
@@ -25,18 +31,30 @@ class Card {
     _getTemplate() {
       return document
       .querySelector(this._cardSelector)
-      .content.querySelector(".card")
+      .content.firstElementChild
       .cloneNode(true);
     }
 
-    _handleLike = () => {
-      this._likeButton
-        .classList.toggle("card__like-button_active");
+    _handleLike() {
+      if(this._isLiked) {
+        this._handleDislikeCard();
+      } else if(!this._isLiked) {
+        this._handleLikeCard();
+      }
     }
 
-    _handleDelete() {
+    deleteCard() {
       this._element.remove();
-      this._element = null;
+    }
+
+    addLike() {
+      this.likeButton.classList.add("card__like-button_active");
+      this._isLiked = true;
+    }
+
+    disLike() {
+      this.likeButton.classList.remove("card__like-button_active");
+      this._isLiked = false;
     }
 
     generateCard() {
@@ -48,6 +66,13 @@ class Card {
 
       const cardTitle = this._element.querySelector(".card__title");
       cardTitle.textContent = this._name;
+
+      this.likeButton = this._element.querySelector(".card__like-button");
+      if(this._isLiked === true) {
+        this.addLike(this._id);
+      } else if (this._isLiked === false) {
+        this.disLike(this._id);
+      }
 
       this._setEventListeners();
 

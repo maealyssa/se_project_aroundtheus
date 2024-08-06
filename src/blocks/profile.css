@@ -63,6 +63,37 @@
     margin-right: 24px;
 }
 
+.profile__avatar:hover {
+    opacity: 0.2;
+  }
+
+.profile__avatar-overlay {
+    position: absolute;
+    top: 25;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.8);
+  
+    /* center edit icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile__avatar-overlay:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.profile__avatar-edit {
+    width: 26px;
+    height: 26px;
+}
+
 .profile__description {
     grid-area: description;
     white-space: nowrap;
